@@ -1,0 +1,12 @@
+.gray-box {
+    background: gray;
+    width: 64px;
+    height: 64px;
+}
+
+.header-title{
+    background: black;
+    color: aqua;
+    font-size: 24px;
+    padding: 1rem;
+}
