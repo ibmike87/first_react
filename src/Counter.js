@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 
 function Counter () {
-    
+
+    /*==================================*/
+    /* variable
+    /*==================================*/
     // 함수의 구조화 할당으로 변수 선언
     const [number, setNumber] = useState(0);
     
@@ -12,6 +15,7 @@ function Counter () {
         setNumber = numberState(0);
 */
 
+    /* Event Handler */
     const onIncrease = () => {
         console.log("+1");
         // setNumber(number + 1);       // 새로운 값(number)를 증가시킨 값을 설정하는 방식
