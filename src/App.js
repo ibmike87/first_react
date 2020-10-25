@@ -1,10 +1,14 @@
 import React from 'react';
 import Hello from './Hello';
+import Wrapper from "./Wrapper";
+import Counter from "./Counter";
 import './App.css';
 
 function App() {
-    const name = 'react';
-    /*const style = {
+    // const name = 'react';
+    /*
+    * 컴포넌트 내부에서 종결되는 style 테그 입력 방법
+    const style = {
         backgroundColor: 'black',
         color: 'aqua',
         fontSize: 24,
@@ -14,7 +18,7 @@ function App() {
     return (
         <>
             {/*<Hello/>*/}
-            {/*<div className="header-title">{name}</div>*/}
+            {/*<div cl  ssName="header-title">{name}</div>*/}
             {/*<div className="gray-box"/>*/}
 
             <div className="header-title">
@@ -22,6 +26,14 @@ function App() {
             </div>
             <Hello color="green"/>
 
+            <Wrapper>
+                {/*이 아래 부분은 Wrapper 의 props.children 에 포함됨.*/}
+                <Hello name="react" color="red" isSpecial={true}/>  {/* => isSpecial={true} 이 부분이 조건부*/}
+                <Hello name="react" color="red" isSpecial/>  {/* => isSpecial 만 써도 위에 코드와 완전히 동일함*/}
+                <Hello name="두번째" color="pink" />
+            </Wrapper>
+
+            <Counter/>
         </>
     );
 }
