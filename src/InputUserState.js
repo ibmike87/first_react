@@ -2,29 +2,31 @@ import React, {useState, useRef} from "react";
 
 
 //어라 ?? 이게 안먹네???
-InputUserState.defaultProps = {
-    name: "unKnown",
-    nickName: "unKnown"
-};
+// InputUserState.defaultProps = {
+//     name: "unKnown",
+//     nickName: "unKnown"
+// };
 
-function InputUserState ({name, nickName}) {
+function InputUserState () {
     /*==================================*/
     /* variable
     /*==================================*/
     const nameInput = useRef();
 
-    // const {name, nickName} = inputs;    //비구조화 할당으로 값 추출
-
     const [inputs, setInputs] = useState({
-        name: name,
-        nickName: nickName,
+        name: "",
+        nickName: "",
     });
+
+    const {name, nickName} = inputs;    //비구조화 할당으로 값 추출
 
 
     /*==================================*/
     /* Event Handler */
     /*==================================*/
     const onChange = (e) => {
+        debugger;
+
         const {value, name} = e.target; // e.target에서 value, name 을 비구조화로 추출
 
         setInputs({
@@ -34,11 +36,13 @@ function InputUserState ({name, nickName}) {
     };
 
     const onReset = () => {
+        debugger;
+
         setInputs({
             name: "",
             nickName: ""
-        });
-        nameInput.current.focus();
+        });     nameInput.current.focus();
+
     };
 
 
