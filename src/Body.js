@@ -3,6 +3,7 @@ import Counter from "./Counter";
 import InputSample from "./InputSample";
 import InputUserState from "./InputUserState";
 import UserList from './UserList';
+import CreateUser from './CreateUser';
 
 function Body () {
 
@@ -40,6 +41,8 @@ function Body () {
             <InputSample />
 
             <InputUserState name="abc" nickName="cdef" />
+
+            <CreateUser />
 
             <h3>이하는 List render </h3>
             <UserList users={users} />
