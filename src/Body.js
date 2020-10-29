@@ -1,9 +1,10 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useMemo } from "react";
 import Counter from "./Counter";
 import InputSample from "./InputSample";
 import InputUserState from "./InputUserState";
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+
 
 function Body () {
 
@@ -82,6 +83,9 @@ function Body () {
         );
     };
 
+    //const count = countActiveUsers(users);  //컴포넌트가 리 랜더링 할때마다 항상 호출하므로 리소스 낭비임.
+    const count = useMemo(() => countActiveUsers(users), [users]);  //=> useMemo 특정 결과값을 재사용 할 때 사용
+
     return (
         <>
             <Counter/> <br/>
@@ -93,11 +97,17 @@ function Body () {
 
             <h3>이하는 User List </h3>
             <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+            <div>활성사용자 수 : {count}</div>
 
             <h2> 바디영역입니다.</h2>
             <hr className="body-inline" />
         </>
     )
+}
+
+function countActiveUsers(users) {
+    console.log('활성 사용자 수를 세는중...');
+    return users.filter(user => user.active).length;
 }
 
 export default Body;
