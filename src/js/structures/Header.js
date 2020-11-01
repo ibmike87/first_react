@@ -1,5 +1,5 @@
 import React from "react";
-import Hello from './Hello';
+import Hello from '../functions/Hello';
 import Wrapper from "./Wrapper";
 
 function Header () {

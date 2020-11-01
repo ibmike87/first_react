@@ -1,9 +1,9 @@
 import React, {useRef, useState, useMemo } from "react";
-import Counter from "./Counter";
-import InputSample from "./InputSample";
-import InputUserState from "./InputUserState";
-import UserList from './UserList';
-import CreateUser from './CreateUser';
+import Counter from "../functions/Counter";
+import InputSample from "../functions/InputSample";
+import InputUserState from "../functions/InputUserState";
+import UserList from '../functions/UserList';
+import CreateUser from '../functions/CreateUser';
 
 
 function Body () {
