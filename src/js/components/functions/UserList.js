@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 
 //컴포넌트1
-function User({user, onRemove, onToggle}) {
+const User = React.memo(function User({user, onRemove, onToggle}) {
+// function User({user, onRemove, onToggle}) {
 
     //useEffect는 마운트(컴포넌트 생성), 언마운트 (컴포넌트 삭제) 시점의 생명주기 handelr 같은 역할인가?
     useEffect(() => {
@@ -17,6 +18,7 @@ function User({user, onRemove, onToggle}) {
         };
     }, [user]); // => deps 배열을 비우게 된다면, 컴포넌트가 처음 나타날때에만 useEffect 에 등록한 함수가 호출
 
+    console.log("##리렌더링 되는지 확인용 :" + user.id);
     return (
         <div>
             <b style={{cursor: "pointer", color: user.active ? "green" : "black"}}      /* 중괄호 1개와 2개 차이는?? */
@@ -30,7 +32,7 @@ function User({user, onRemove, onToggle}) {
             <button onClick={() => onRemove(user.id)}>삭제</button>
         </div>
     );
-}
+});
 
 //컴포넌트2
 function UserList ({users, onRemove, onToggle}) {
@@ -48,4 +50,4 @@ function UserList ({users, onRemove, onToggle}) {
     );
 }
 
-export default UserList;
+export default React.memo(UserList);

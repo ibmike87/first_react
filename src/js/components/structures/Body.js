@@ -1,7 +1,8 @@
 import React, {
-    useRef,
-    useState,
-    useMemo     //연산한 값 재사용하기
+    useRef,         //DOM 을 선택하는 용도 + 컴포넌트 안에서 조회 및 수정할 수 있는 변수를 관리
+    useState,       //컴포넌트에서 바뀌는 값 관리하기
+    useMemo,        //특정 결과값을 재사용할 때
+    useCallback     //특정 함수를 재사용할 때
 } from "react";
 import Counter from "../functions/Counter";
 import InputSample from "../functions/InputSample";
@@ -15,6 +16,7 @@ function Body() {
     /*==================================*/
     /* variable
     /*==================================*/
+    /* 7. useState 를 통해 컴포넌트에서 바뀌는 값 관리하기 */
     const [inputs, setInputs] = useState({
         //input 객체의 구조
         username: "",
@@ -23,15 +25,8 @@ function Body() {
 
     const {username, email} = inputs;
 
-    const onChange = e => {
-        const {name, value} = e.target;
 
-        setInputs({
-            ...inputs,
-            [name]: value
-        });
-    };
-
+    /* 7. useState 를 통해 컴포넌트에서 바뀌는 값 관리하기 */
     //기존의 사용자들 정보
     const [users, setUsers] = useState([
         {
@@ -54,41 +49,73 @@ function Body() {
         }
     ]);
 
+    /* 12. useRef 로 컴포넌트 안의 변수 만들기 */
     const nextId = useRef(4);
 
-    // 배열에 항목 추가하는 로직
-    const onCreate = () => {
-        const user = {
-            id: nextId.current, //아래에서 추가되는 nextId로 매번 새로운 index 를 생성
-            username: username,
-            email: email
-        };
-
-        setUsers([...users, user]);
-        // setUsers(users.concat(user));   //위 코드와 동일함.
-
-        setInputs({
-            username: '',
-            email: ''
-        });
-
-        nextId.current += 1;
-    };
-
-    const onRemove = id => {
-        // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
-        // = user.id 가 id 인 것을 제거함
-        setUsers(users.filter(user => user.id !== id));
-    };
-
-    const onToggle = id => {
-        setUsers(
-            users.map(user => user.id === id ? {...user, active: !user.active} : user)
-        );
-    };
-
-    //const count = countActiveUsers(users);  //컴포넌트가 리 랜더링 할때마다 항상 호출하므로 리소스 낭비임.
+    /* 17. useMemo 를 사용하여 연산한 값 재사용하기 */
+    // const count = countActiveUsers(users);  //컴포넌트가 리 랜더링 할때마다 항상 호출하므로 리소스 낭비임.
     const count = useMemo(() => countActiveUsers(users), [users]);  //=> useMemo 특정 결과값을 재사용 할 때 사용
+
+
+    /*==================================*/
+    /* Event Handler */
+    /*==================================*/
+    const onChange = useCallback(
+        e => {
+            const {name, value} = e.target;
+            
+            //19. 함수형으로 전환
+            setInputs(inputs => ({
+                ...inputs,
+                [name]: value
+            }));
+        },
+        []  //위에서 함수형으로 전환하고 기존 deps에서 users를 삭제
+    );
+
+    // 배열에 항목 추가하는 로직
+    const onCreate = useCallback(
+        () => {
+            const user = {
+                id: nextId.current, //아래에서 추가되는 nextId로 매번 새로운 index 를 생성
+                username: username,
+                email: email
+            };
+
+            //19. 함수형으로 전환
+            setUsers(users => ([...users, user]));
+            // setUsers(users.concat(user));   //위 코드와 동일함.
+
+            setInputs({
+                username: '',
+                email: ''
+            });
+
+            nextId.current += 1;
+        },
+        [username, email] //위에서 함수형으로 전환하고 기존 deps에서 users 를 삭제
+    );
+
+    const onRemove = useCallback(
+            id => {
+            // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+            // = user.id 가 id 인 것을 제거함
+            //19. 함수형으로 전환
+            setUsers(users => users.filter(user => user.id !== id));
+        },
+        [] //위에서 함수형으로 전환하고 기존 deps에서 users 를 삭제
+    );
+
+    const onToggle = useCallback(
+            id => {
+
+            //19. 함수형으로 전환
+            setUsers(users =>
+                users.map(user => user.id === id ? {...user, active: !user.active} : user)
+            );
+        },
+        []  //위에서 함수형으로 전환하고 기존 deps에서 users 를 삭제
+    );
 
     return (
         <>
