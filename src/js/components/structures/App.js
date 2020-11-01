@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Body from './Body';
 import Footer from './Footer';
-import '../../css/App.css';
+import '../../../css/App.css';
 
 function App() {
     return (

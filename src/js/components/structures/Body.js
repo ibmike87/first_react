@@ -1,4 +1,8 @@
-import React, {useRef, useState, useMemo } from "react";
+import React, {
+    useRef,
+    useState,
+    useMemo     //연산한 값 재사용하기
+} from "react";
 import Counter from "../functions/Counter";
 import InputSample from "../functions/InputSample";
 import InputUserState from "../functions/InputUserState";
@@ -6,7 +10,7 @@ import UserList from '../functions/UserList';
 import CreateUser from '../functions/CreateUser';
 
 
-function Body () {
+function Body() {
 
     /*==================================*/
     /* variable
@@ -17,17 +21,17 @@ function Body () {
         email: ""
     });
 
-    const { username, email } = inputs;
+    const {username, email} = inputs;
 
     const onChange = e => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
 
         setInputs({
             ...inputs,
             [name]: value
         });
     };
-    
+
     //기존의 사용자들 정보
     const [users, setUsers] = useState([
         {
@@ -56,8 +60,8 @@ function Body () {
     const onCreate = () => {
         const user = {
             id: nextId.current, //아래에서 추가되는 nextId로 매번 새로운 index 를 생성
-            username : username,
-            email : email
+            username: username,
+            email: email
         };
 
         setUsers([...users, user]);
@@ -79,7 +83,7 @@ function Body () {
 
     const onToggle = id => {
         setUsers(
-            users.map(user => user.id === id ? { ...user, active: !user.active } : user)
+            users.map(user => user.id === id ? {...user, active: !user.active} : user)
         );
     };
 
@@ -90,8 +94,8 @@ function Body () {
         <>
             <Counter/> <br/>
 
-            <InputSample /> <br/>
-            <InputUserState /> <br/>
+            <InputSample/> <br/>
+            <InputUserState/> <br/>
 
             <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
 
@@ -100,7 +104,7 @@ function Body () {
             <div>활성사용자 수 : {count}</div>
 
             <h2> 바디영역입니다.</h2>
-            <hr className="body-inline" />
+            <hr className="body-inline"/>
         </>
     )
 }
