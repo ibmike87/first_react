@@ -10,8 +10,12 @@ import InputUserState from "../functions/InputUserState";
 import UserList from '../functions/UserList';
 import CreateUser from '../functions/CreateUser';
 
+function countActiveUsers(users) {
+    console.log('활성 사용자 수를 세는중...');
+    return users.filter(user => user.active).length;
+}
 
-function Body() {
+function Body_Origin() {
 
     /*==================================*/
     /* variable
@@ -136,9 +140,4 @@ function Body() {
     )
 }
 
-function countActiveUsers(users) {
-    console.log('활성 사용자 수를 세는중...');
-    return users.filter(user => user.active).length;
-}
-
-export default Body;
+export default Body_Origin;
