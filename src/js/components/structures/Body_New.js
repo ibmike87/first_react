@@ -13,8 +13,15 @@ function countActiveUsers(users) {
     return users.filter(user => user.active).length;
 }
 
+const initInputs = useInputs({ username: "", email: "" });
+
 const initialState = {
     // inputs: { username: "",  email: "" },
+    inputs: initInputs[0],
+
+    onChange: initInputs[1],
+
+    reset: initInputs[2],
 
     users: [
         {
@@ -40,26 +47,24 @@ const initialState = {
 
 function reducer(state, action) {
     switch (action.type) {
-/*
-        case "CHANGE_INPUT":
+/*        case "CHANGE_INPUT":
             return {
                 ...state,
                 inputs: {
                     ...state.inputs,
                     [action.name]: action.value
                 }
-            };
-*/
+            };*/
 
         case "CREATE_USER":
             return {
-                // inputs: initialState.inputs,
+                inputs: initialState.inputs,
                 users: state.users.concat(action.user)
             };
 
         case 'TOGGLE_USER':
             return {
-                // ...state,
+                ...state,
                 users: state.users.map(user =>
                     user.id === action.id ? { ...user, active: !user.active } : user
                 )
@@ -67,7 +72,7 @@ function reducer(state, action) {
 
         case 'REMOVE_USER':
             return {
-                // ...state,
+                ...state,
                 users: state.users.filter(user => user.id !== action.id)
             };
 
@@ -77,16 +82,19 @@ function reducer(state, action) {
 }
 
 function Body_New() {
-    const [{ username, email }/* <- 이게 form */, onChange, reset] = useInputs({
+/*
+    const [{ username, email }/!* <- 이게 form *!/, onChange, reset] = useInputs({
         username: "",
         email: ""
     })
-
+*/
     const [state, dispatch] = useReducer(reducer, initialState);
     const nextId = useRef(4);
 
     const { users } = state;
-    // const { username, email } = state.inputs;
+    const { username, email } = state.inputs;
+    const onChange = state.onChange;
+    // const reset = state.reset;
 /*
 
     const onChange = useCallback(e => {
@@ -108,10 +116,10 @@ function Body_New() {
                 email
             }
         });
-        reset();
+        // reset();
 
         nextId.current += 1;
-    }, [username, email, reset]);
+    }, [username, email, /*reset*/]);
 
     const onToggle = useCallback(id => {
         dispatch({
