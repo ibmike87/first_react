@@ -1,11 +1,7 @@
 import React from 'react';
 
-
-
-
-const CreateUser = ({username, email, onChange, onCreate}) => {
 // function CreateUser ({username, email, onChange, onCreate}) {
-
+const CreateUser = ({username, email, onChange, onCreate}) => {
     return (
         <div>
             <input
