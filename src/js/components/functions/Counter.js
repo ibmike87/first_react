@@ -1,4 +1,4 @@
-import React, {useState, useReducer} from 'react';
+import React, { useState, useReducer } from 'react';
 
 /* 20. useReducer 를 사용하여 상태 업데이트 로직 분리하기 */
 function reducer(state, action) {
@@ -9,7 +9,6 @@ function reducer(state, action) {
             return state -1;
         default:
             return state;
-
     }
 }
 

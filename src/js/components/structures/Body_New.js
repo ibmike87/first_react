@@ -76,8 +76,14 @@ function reducer(state, action) {
     }
 }
 
+// UserDispatch 라는 이름으로 내보내줍니다.
+export const UserDispatch = React.createContext(null);
+// 이렇게 내보내주면 나중에 사용하고 싶을 때 다음과 같이 불러와서 사용 할 수 있습니다.
+// import { UserDispatch } from './App';
+
+
 function Body_New() {
-    const [{ username, email }/* <- 이게 form */, onChange, reset] = useInputs({
+    const [{ username, email }/* <- 이게 form */, onChange, onReset] = useInputs({
         username: "",
         email: ""
     })
@@ -108,37 +114,38 @@ function Body_New() {
                 email
             }
         });
-        reset();
+        onReset();
 
         nextId.current += 1;
-    }, [username, email, reset]);
+    }, [username, email, onReset]);
 
-    const onToggle = useCallback(id => {
-        dispatch({
-            type: 'TOGGLE_USER',
-            id
-        });
-    }, []);
+    // const onToggle = useCallback(id => {
+    //     dispatch({
+    //         type: 'TOGGLE_USER',
+    //         id
+    //     });
+    // }, []);
 
-    const onRemove = useCallback(id => {
-        dispatch({
-            type: 'REMOVE_USER',
-            id
-        });
-    }, []);
+    // const onRemove = useCallback(id => {
+    //     dispatch({
+    //         type: 'REMOVE_USER',
+    //         id
+    //     });
+    // }, []);
 
     const count = useMemo(() => countActiveUsers(users), [users]);
 
     return (
-        <>
+        /* 이렇게 설정해주고 나면 Provider 에 의하여 감싸진 컴포넌트 중 어디서든지 우리가 Context 의 값을 다른 곳에서 바로 조회해서 사용 할 수 있음 */
+        <UserDispatch.Provider value={dispatch}>
             <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate} />
             <h3>이하는 User List </h3>
-            <UserList users={users} onToggle={onToggle} onRemove={onRemove} />
+            {/*<UserList users={users} onToggle={onToggle} onRemove={onRemove} />*/}
             <div>활성사용자 수 : {count}</div>
 
             <h2> 바디영역입니다.</h2>
             <hr className="body-inline"/>
-        </>
+        </UserDispatch.Provider>
     )
 }
 

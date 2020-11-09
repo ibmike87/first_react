@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useContext} from "react";
+import { UserDispatch } from "../structures/Body_New";
 
 //컴포넌트1
 const User = React.memo(function User({user, onRemove, onToggle}) {
@@ -19,31 +20,41 @@ const User = React.memo(function User({user, onRemove, onToggle}) {
     }, [user]); // => deps 배열을 비우게 된다면, 컴포넌트가 처음 나타날때에만 useEffect 에 등록한 함수가 호출
 
     console.log("##리렌더링 되는지 확인용 :" + user.id);
+
+
+    const dispatch = useContext(UserDispatch);
+
     return (
         <div>
             <b style={{cursor: "pointer", color: user.active ? "green" : "black"}}      /* 중괄호 1개와 2개 차이는?? */
-               onClick={() => onToggle(user.id)}
+               onClick={() => {
+                   /*onToggle(user.id)*/
+                   dispatch({ type: 'TOGGLE_USER', id: user.id });
+               }}
             >
                 {user.username}
             </b>
             &nbsp;
             <span>({user.email})</span>
 
-            <button onClick={() => onRemove(user.id)}>삭제</button>
+            <button onClick={() => {
+                /*onRemove(user.id)*/
+                dispatch({ type: 'REMOVE_USER', id: user.id });
+            }}>삭제</button>
         </div>
     );
 });
 
 //컴포넌트2
-function UserList ({users, onRemove, onToggle}) {
+function UserList({users, onRemove, onToggle}) {
     return (
         <div>
             {users.map((user) => (
                 <User
                     user={user}
                     key={user.id}
-                    onRemove={onRemove}
-                    onToggle={onToggle}
+                    // onRemove={onRemove}
+                    // onToggle={onToggle}
                 />
             ))}
         </div>

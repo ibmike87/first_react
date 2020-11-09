@@ -1,11 +1,4 @@
-import React, {useState, useRef} from "react";
-
-
-//어라 ?? 이게 안먹네???
-// InputUserState.defaultProps = {
-//     name: "unKnown",
-//     nickName: "unKnown"
-// };
+import React, { useState, useRef } from "react";
 
 function InputUserState () {
     /*==================================*/
@@ -44,7 +37,6 @@ function InputUserState () {
         });     nameInput.current.focus();
 
     };
-
 
     return (
         <div>
