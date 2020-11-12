@@ -7,6 +7,7 @@ import React, {
 import UserList from '../functions/UserList';
 import CreateUser from '../functions/CreateUser';
 import useInputs from '../../hooks/useInputs';
+import produce from 'immer';
 
 function countActiveUsers(users) {
     console.log('활성 사용자 수를 세는중...');
@@ -52,24 +53,43 @@ function reducer(state, action) {
 */
 
         case "CREATE_USER":
-            return {
+/*            return {
                 // inputs: initialState.inputs,
                 users: state.users.concat(action.user)
             };
+*/
+            // 23. immer를 사용했을 때
+            return produce(state, draft => {
+                draft.users.push(action.user);
+            });
 
         case 'TOGGLE_USER':
+/*
             return {
                 // ...state,
                 users: state.users.map(user =>
                     user.id === action.id ? { ...user, active: !user.active } : user
                 )
             };
+*/
+            // 23. immer를 사용했을 때
+            return produce(state, draft => {
+                const user = draft.users.find(user => user.id === action.id);
+                user.active = !user.active;
+            });
 
         case 'REMOVE_USER':
+/*
             return {
                 // ...state,
                 users: state.users.filter(user => user.id !== action.id)
             };
+*/
+        // 23. immer를 사용했을 때
+        return produce(state, draft => {
+            const index = draft.users.findIndex(user => user.id === action.id);
+            draft.users.splice(index, 1);
+        });
 
         default :
             return state;
